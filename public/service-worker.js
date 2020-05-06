@@ -1,6 +1,5 @@
 const FILES_TO_CACHE = [
   '/index.html',
-
 ];
 
 const CACHE_NAME = "static-cache-v2";
@@ -38,8 +37,7 @@ self.addEventListener("activate", function(evt) {
 
 // fetch
 self.addEventListener("fetch", function(evt) {
-  if (evt.request.url.includes("/api/")) {
-    console.log('[Service Worker] Fetch (data)', evt.request.url);
+  if (evt.request.url.includes("/")) {
     evt.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(evt.request)
@@ -48,7 +46,6 @@ self.addEventListener("fetch", function(evt) {
             if (response.status === 200) {
               cache.put(evt.request.url, response.clone());
             }
-
             return response;
           })
           .catch(err => {
